@@ -1,0 +1,14 @@
+syntax="proto3";
+
+package genproto;
+option go_package="genproto/company_service";
+
+import "company.proto";
+
+service CompanyService {
+    rpc Create(CreateCompany) returns (CompanyId) {}
+    rpc Get(CompanyId) returns (Company) {}
+    rpc GetAll(GetAllCompanyRequest) returns (GetAllCompanyResponse) {}
+    rpc Update(Company) returns (UpdateCompanyResponse) {}
+    rpc Delete(CompanyId) returns (UpdateCompanyResponse) {}
+}

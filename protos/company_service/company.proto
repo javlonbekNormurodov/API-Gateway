@@ -1,0 +1,33 @@
+syntax="proto3";
+
+package genproto;
+option go_package="genproto/company_service";
+
+message Company {
+    string id = 1;
+    string name = 2;
+}
+
+message CreateCompany {
+    string name = 1;
+}
+
+message CompanyId {
+    string id = 1;
+}
+
+message GetAllCompanyRequest {
+    uint32 limit = 1;
+    uint32 offset = 2;
+    string name = 3;
+}
+
+message GetAllCompanyResponse {
+    repeated Company professions = 1;
+    uint32 count = 2;
+}
+
+message UpdateCompanyResponse {
+    string id = 1;
+}
+

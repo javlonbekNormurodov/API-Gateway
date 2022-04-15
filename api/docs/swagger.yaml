@@ -1,0 +1,379 @@
+definitions:
+  config.Config:
+    properties:
+      companyServiceHost:
+        type: string
+      companyServicePort:
+        type: integer
+      environment:
+        description: develop, staging, production
+        type: string
+      httpPort:
+        type: string
+      logLevel:
+        type: string
+      minioAccessKeyID:
+        type: string
+      minioBucketName:
+        type: string
+      minioEndpoint:
+        type: string
+      minioHost:
+        type: string
+      minioLocation:
+        type: string
+      minioSecretKey:
+        type: string
+    type: object
+  models.Company:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  models.CreateCompany:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  models.GetAllCompanyResponse:
+    properties:
+      count:
+        type: integer
+      professions:
+        items:
+          $ref: '#/definitions/models.Company'
+        type: array
+    type: object
+  models.MsgResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  models.ResponseModel:
+    properties:
+      code:
+        type: integer
+      data: {}
+      error: {}
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /config:
+    get:
+      consumes:
+      - application/json
+      description: shows config of the project only on the development phase
+      operationId: get-config
+      parameters:
+      - description: name
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/config.Config'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: gets project config
+      tags:
+      - config
+  /v1/company:
+    get:
+      consumes:
+      - application/json
+      description: Get All company
+      operationId: get-all-company
+      parameters:
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: offset
+        in: query
+        name: offset
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.GetAllCompanyResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: get all company
+      tags:
+      - Company
+    post:
+      consumes:
+      - application/json
+      description: Create company
+      operationId: create-company
+      parameters:
+      - description: company
+        in: body
+        name: company
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateCompany'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: create company
+      tags:
+      - Company
+    put:
+      consumes:
+      - application/json
+      description: Update company
+      operationId: update-company
+      parameters:
+      - description: company
+        in: body
+        name: company
+        required: true
+        schema:
+          $ref: '#/definitions/models.Company'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.MsgResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: update company
+      tags:
+      - Company
+  /v1/company/{company_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete company
+      operationId: delete-company
+      parameters:
+      - description: company_id
+        in: path
+        name: company_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.MsgResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: delete company
+      tags:
+      - Company
+    get:
+      consumes:
+      - application/json
+      description: Get company
+      operationId: get-company
+      parameters:
+      - description: company_id
+        in: path
+        name: company_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Company'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: get company
+      tags:
+      - Company
+  /v1/ping:
+    get:
+      consumes:
+      - application/json
+      description: this returns "pong" messsage to show service is working
+      operationId: ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: returns "pong" message
+      tags:
+      - config
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
